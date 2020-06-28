@@ -3,7 +3,7 @@ import React from "react";
 const App = () => {
   const [nums, setNums] = React.useState<number[]>([1]);
   const [maxNum, setMaxNum] = React.useState<number>(1);
-  const [pnums, setpnums] = React.useState<number[]>([1]);
+  const [pnums, setpnums] = React.useState<number[]>([]);
   const [numToColor, setnumToColor] = React.useState<string[]>([]);
 
   const eratosthenes = (max: number): number[] => {
@@ -18,6 +18,7 @@ const App = () => {
         numToColor[i] = colors[i % 4];
         for (let j = 2; i * j <= max; j++) {
           isPrime[i * j] = false;
+          if (numToColor[i * j]) continue;
           numToColor[i * j] = colors[i % 4];
         }
         setnumToColor([...numToColor]);
@@ -37,7 +38,14 @@ const App = () => {
     const color = numToColor[num] || "#fff";
     const isPrime = pnums.includes(num);
     return (
-      <div key={num} style={{ backgroundColor: color, marginRight: "1em", fontWeight: isPrime ? "bold" : "normal" }}>
+      <div
+        key={num}
+        style={{
+          backgroundColor: color,
+          marginRight: "1em",
+          fontWeight: isPrime ? "bold" : "normal",
+        }}
+      >
         {num}
       </div>
     );
@@ -63,13 +71,17 @@ const App = () => {
         <p>prime numbers</p>
         <div style={{ display: "flex", flexDirection: "row" }}>
           {pnums.map((num) => (
-            <div key={num} style={{marginRight: "1em"}}>{num}</div>
+            <div key={num} style={{ marginRight: "1em" }}>
+              {num}
+            </div>
           ))}
         </div>
       </div>
       <div>
         <p>numbers</p>
-        <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
+        <div
+          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+        >
           {nums.map((n) => num({ num: n }))}
         </div>
       </div>
